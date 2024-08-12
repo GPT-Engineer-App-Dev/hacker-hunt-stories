@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 const fetchStories = async (query = '') => {
-  const url = `https://hn.algolia.com/api/v1/search?tags=story&hitsPerPage=100&query=${query}`;
+  const timestamp24HoursAgo = Math.floor(Date.now() / 1000) - 86400; // 86400 seconds in 24 hours
+  const url = `https://hn.algolia.com/api/v1/search?tags=story&numericFilters=created_at_i>${timestamp24HoursAgo}&hitsPerPage=100&query=${query}`;
   const response = await fetch(url);
   if (!response.ok) {
     throw new Error('Network response was not ok');
